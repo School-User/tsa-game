@@ -22,6 +22,7 @@ window.Levels = window.Levels || [];
       choices: [ { text: 'Close the channel.', setFlag: 'contacted' } ] } } };
 
   window.Levels[2] = { id: 3, title: 'The Signal',
+    image: 'assets/level3.webp', imageAlt: 'Illustration: a glass dome facing a dying star, with pulses of light on a screen.',
     intro: 'The lab is a dome of glass facing the dying star. A single repeating pulse flickers across the main screen. It is not noise. It is a message, shifted and scrambled, and it has been repeating for longer than you have been alive.',
     hotspots: [
       { id: 'listen', label: 'Listen to the signal', text: 'Three pulses, a gap, three pulses. The rhythm is too patient to be a machine error.', xp: 5 },

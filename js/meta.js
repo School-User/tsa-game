@@ -2,6 +2,8 @@
 window.GameMeta = {
   key: 'driftSignal.v1',
   title: 'Drift Signal',
+  image: 'assets/title.webp',
+  imageAlt: 'Illustration: a small worn survey ship drifting beside a huge dying red star.',
   tagline: 'You wake alone on a drifting ship near a dying star. Nothing here can be fought. Everything can be solved.',
   // First matching flag wins; the last entry is the fallback.
   endings: [

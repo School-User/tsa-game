@@ -1,3 +1,4 @@
 - 2026-11-17 | Claude Code | design doc, state.js, dialogue.js, game.js, css, levels 1-3 story/data, tests, e2e playthrough
 - 2026-11-17 | Freebuff (DeepSeek) | js/puzzles/power.js, valves.js, cipher.js
 - 2026-11-17 | Codex | read-only review of Drift Signal (bugs, accessibility, judge scoring); fixes applied by Claude Code
+- 2026-11-17 | Codex (OpenAI image generation) | AI-generated illustrations assets/title, level1-3 (.webp); decorative only; no people, text or logos; disclose as AI-generated on the checklist and reflection

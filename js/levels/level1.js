@@ -14,6 +14,7 @@ window.Levels = window.Levels || [];
     end: { speaker: 'ORI (ship AI)', text: 'I will be here. I am always here. It is rather the problem.' } } };
 
   window.Levels[0] = { id: 1, title: 'Cryo Deck',
+    image: 'assets/level1.webp', imageAlt: 'Illustration: frosted cryo pods in cold blue light, one open, and a dead pressure door.',
     intro: 'Cold blue light. Frost on a row of sleeping pods, all dark except yours. A pressure door at the far end is dead. Somewhere, a voice is trying to start.',
     hotspots: [
       { id: 'look', label: 'Look around', text: 'Seven pods, six empty and cold. Name plates scratched by time. A faint hum comes from the walls.', xp: 5 },

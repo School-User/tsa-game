@@ -18,6 +18,7 @@ window.Levels = window.Levels || [];
     done: { speaker: 'ORI (ship AI)', text: 'Protocol nine, suspended by mutual agreement. The lab is open.' } } };
 
   window.Levels[1] = { id: 2, title: 'Life Support',
+    image: 'assets/level2.webp', imageAlt: 'Illustration: four valve wheels, pipes and a gauge on a life-support wall.',
     intro: 'The air tastes of metal. Four valves on the wall, labelled A to D, feed the ring that keeps the ship breathing. Beyond them, a sealed lab door. A red gauge ticks the wrong way.',
     hotspots: [
       { id: 'gauges', label: 'Read the gauges', text: 'Oxygen is at 61 percent and falling slowly. The valves must be opened in the right order or the pressure will surge.', xp: 5 },
