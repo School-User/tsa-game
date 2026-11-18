@@ -7,7 +7,7 @@
   // The current line plus its choices. Locked choices are shown but disabled, with the reason.
   function view(d) {
     var node = d.tree.nodes[d.at], s = d.state;
-    var choices = (node.choices || []).filter(function (c) {
+    var choices = d.ended ? [] : (node.choices || []).filter(function (c) {
       return (!c.needFlag || s.flags[c.needFlag]) && (!c.notFlag || !s.flags[c.notFlag]);
     }).map(function (c) {
       var ok = !c.req || s.stats[c.req.stat] >= c.req.min;
@@ -21,7 +21,11 @@
     var c = view(d).choices[i];
     if (!c || c.locked) return null;
     var raw = c.raw, gained = 0;
-    if (raw.setFlag) d.state.flags[raw.setFlag] = true;
+    if (raw.setFlag) {
+      // Only one ending can be chosen: picking a new one clears the others (matters if the player reloads mid-conversation).
+      if (raw.setFlag.indexOf('ending_') === 0) Object.keys(d.state.flags).forEach(function (k) { if (k.indexOf('ending_') === 0) delete d.state.flags[k]; });
+      d.state.flags[raw.setFlag] = true;
+    }
     if (raw.xp && raw.id) gained = root.State ? (root.State.award(d.state, raw.id, raw.xp) ? raw.xp : 0) : 0;
     if (raw.next && d.tree.nodes[raw.next]) d.at = raw.next; else d.ended = true;
     return { xp: gained };

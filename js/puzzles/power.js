@@ -43,7 +43,7 @@
     el.appendChild(mk('h2', {}, 'Power routing'));
     el.appendChild(mk('p', { 'class': 'small' },
       'Power enters at the source on the left and must reach the door on the right. ' +
-      'Click a fitting, or focus it and press Enter or Space, to turn it a quarter turn.' +
+      'Click a fitting, or focus it (arrow keys move) and press Enter or Space, to turn it a quarter turn.' +
       (hint ? ' Faint dots mark the conductors on the live route.' : '')));
 
     var count = mk('p', { 'class': 'small' }, 'Rotations: 0');
@@ -126,7 +126,9 @@
     function label(t, on) {
       var fixed = t.type === 's' || t.type === 'd' || t.type === 'e';
       return 'Row ' + (t.r + 1) + ', column ' + (t.c + 1) + ': ' + NAMES[t.type] + ', ' +
-        (on ? 'powered' : 'no power') + (fixed ? '. Fixed.' : '. Press Enter or Space to rotate.');
+        (t.type === 'e' ? '' : ', connects ' + conns(t).map(function (d) { return ['north', 'east', 'south', 'west'][d]; }).join(' and ')) +
+        ', ' + (on ? 'powered' : 'no power') + (hint && PATH[t.r + ',' + t.c] ? ', on the live route' : '') +
+        (fixed ? '. Fixed.' : '. Press Enter or Space to rotate.');
     }
 
     function paint() {
@@ -149,7 +151,7 @@
     function finish(ok) {
       if (stopped) return;
       stopped = true; clearTimeout(timer);
-      done({ solved: !!ok });
+      done({ solved: ok === true, skipped: ok === 'skip' });
     }
 
     function solve() {
@@ -173,15 +175,15 @@
     var controls = mk('div', { 'class': 'row' });
     var skip = mk('button', { type: 'button', 'class': 'btn ghost small', hidden: '' },
       'Skip puzzle (no XP)');
-    skip.addEventListener('click', function () { finish(false); });
+    skip.addEventListener('click', function () { finish('skip'); });
     var back = mk('button', { type: 'button', 'class': 'btn ghost small' }, 'Back');
     back.addEventListener('click', function () { finish(false); });
     controls.appendChild(skip); controls.appendChild(back);
     el.appendChild(controls);
 
     timer = setTimeout(function () {
-      live.textContent = 'The console times out and the panel goes dark.';
-      finish(false);
+      live.textContent = 'The console is stuck. You can skip it now, with no XP.';
+      skip.hidden = false;
     }, LIMIT_MS);
 
     paint();

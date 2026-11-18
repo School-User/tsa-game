@@ -23,6 +23,7 @@ window.Levels = window.Levels || [];
       { id: 'gauges', label: 'Read the gauges', text: 'Oxygen is at 61 percent and falling slowly. The valves must be opened in the right order or the pressure will surge.', xp: 5 },
       { id: 'p_valves', label: 'Work the valves', puzzle: 'valves', setFlag: 'air_ok', xp: 30,
         text: 'The valves hiss open one after another. The gauge steadies and climbs. You can breathe.' },
+      { id: 'log2', label: 'Read the maintenance log', xp: 5, text: 'Last entry, day 412: "Valve C first, always. Never B before the ring is full. Ask ORI nicely, it remembers kindness."' },
       { id: 'lab', label: 'Ask ORI to open the lab', dialogue: lab },
-      { id: 'door2', label: 'Go to the lab', needFlag: 'lab_open', exit: true } ] };
+      { id: 'door2', label: 'Go to the lab', needAll: ['air_ok', 'lab_open'], exit: true } ] };
 })();

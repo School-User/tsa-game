@@ -72,7 +72,7 @@
     var controls = mk('div', { 'class': 'row' });
     var skip = mk('button', { type: 'button', 'class': 'btn ghost small', hidden: '' },
       'Skip puzzle (no XP)');
-    skip.addEventListener('click', function () { finish(false); });
+    skip.addEventListener('click', function () { finish('skip'); });
     var back = mk('button', { type: 'button', 'class': 'btn ghost small' }, 'Back');
     back.addEventListener('click', function () { finish(false); });
     controls.appendChild(skip); controls.appendChild(back);
@@ -96,7 +96,7 @@
       stopped = true; clearTimeout(timer);
       buttons.forEach(function (b) { b.disabled = true; });
       reset.disabled = true; skip.disabled = true; back.disabled = true;
-      done({ solved: !!ok });
+      done({ solved: ok === true, skipped: ok === 'skip' });
     }
 
     function solve() {

@@ -42,3 +42,16 @@ assert.ok(Dialogue.view(d).end, 'node without choices ends');
 s = State.newGame({ eng: 1, sci: 1, emp: 7 }); d = Dialogue.open(tree, s);
 assert.strictEqual(Dialogue.choose(d, 0).xp, 20); assert.ok(s.flags.calm && s.xp === 20);
 console.log('core: all tests passed');
+
+// only one ending can be active; ended dialogue shows no choices
+{
+  const s2 = State.newGame({ eng: 3, sci: 3, emp: 3 });
+  const t2 = { start: 'a', nodes: { a: { speaker: 'x', text: 't', choices: [
+    { text: 'peace', setFlag: 'ending_peace' }, { text: 'study', setFlag: 'ending_study' } ] } } };
+  const d2 = Dialogue.open(t2, s2);
+  Dialogue.choose(d2, 0);
+  assert.strictEqual(Dialogue.view(d2).choices.length, 0, 'no choices after the talk ends');
+  const d3 = Dialogue.open(t2, s2); Dialogue.choose(d3, 1);
+  assert.ok(s2.flags.ending_study && !s2.flags.ending_peace, 'last ending wins');
+}
+console.log('core: ending tests passed');

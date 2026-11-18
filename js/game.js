@@ -11,7 +11,12 @@
     if (text !== undefined) e.textContent = text;
     return e;
   }
-  function clear() { while (root.firstChild) root.removeChild(root.firstChild); }
+  function clear() { while (root.firstChild) root.removeChild(root.firstChild); setTimeout(focusTop, 0); }
+  // After every redraw, move focus to the new heading so keyboard and screen-reader users know the screen changed.
+  function focusTop() {
+    var t = root.querySelector('.panel h2, .panel .who, h1, h2, .hud strong');
+    if (t) { t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: false }); }
+  }
   function btn(text, onClick, cls) { var b = el('button', { type: 'button', 'class': 'btn ' + (cls || '') }, text); b.addEventListener('click', onClick); return b; }
 
   // ---------- title / character creation ----------
@@ -41,16 +46,16 @@
     State.STATS.forEach(function (k) {
       var row = el('div', { 'class': 'row' });
       rows[k] = el('span', { 'class': 'statname' });
-      row.appendChild(btn('−', function () { if (a[k] > 1) { a[k]--; redraw(); } }, 'small'));
+      var dec = btn('−', function () { if (a[k] > 1) { a[k]--; redraw(); } }, 'small'); dec.setAttribute('aria-label', 'Decrease ' + names[k]); row.appendChild(dec);
       row.appendChild(rows[k]);
-      row.appendChild(btn('+', function () { if (left > 0 && a[k] < 7) { a[k]++; redraw(); } }, 'small'));
+      var inc = btn('+', function () { if (left > 0 && a[k] < 7) { a[k]++; redraw(); } }, 'small'); inc.setAttribute('aria-label', 'Increase ' + names[k]); row.appendChild(inc);
       root.appendChild(row);
     });
     root.appendChild(info); root.appendChild(go); redraw();
   }
 
   // ---------- HUD ----------
-  function hud(lvl) {
+  function hud(lvl, noUp) {
     var bar = el('header', { 'class': 'hud' });
     bar.appendChild(el('strong', {}, 'Level ' + lvl.id + ' · ' + lvl.title));
     var into = S.xp % 40, pct = S.level >= 6 ? 100 : Math.round(into / 40 * 100);
@@ -59,7 +64,7 @@
     var meter = el('div', { 'class': 'meter', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(pct), 'aria-label': 'XP to next rank' });
     meter.appendChild(el('span', { style: 'width:' + pct + '%' }));
     bar.appendChild(meter);
-    if (State.points(S) > 0) {
+    if (State.points(S) > 0 && !noUp) {
       var up = el('div', { 'class': 'levelup' }, 'Level up! Add a point: ');
       State.STATS.forEach(function (k) { up.appendChild(btn('+' + k.toUpperCase(), function () { State.spend(S, k); State.save(S); play(); }, 'small')); });
       bar.appendChild(up);
@@ -84,6 +89,7 @@
     var box = el('div', { 'class': 'hotspots' });
     lvl.hotspots.forEach(function (h) {
       if ((h.needFlag && !S.flags[h.needFlag]) || (h.notFlag && S.flags[h.notFlag])) return;
+      if (h.needAll && !h.needAll.every(function (f) { return S.flags[f]; })) return;
       box.appendChild(btn(h.label, function () { use(lvl, h); }));
     });
     root.appendChild(box);
@@ -106,20 +112,22 @@
   }
 
   function runPuzzle(lvl, h) {
-    clear(); root.appendChild(hud(lvl));
+    clear(); root.appendChild(hud(lvl, true));
     var p = window.Puzzles[h.puzzle], panel = el('section', { 'class': 'panel', 'aria-label': h.label });
     root.appendChild(panel);
     if (!p) { panel.appendChild(el('p', {}, 'This system is not built yet.')); panel.appendChild(btn('Back', function () { play(); })); return; }
     var ctx = { stat: function (n) { return S.stats[n]; } };
     p.start(panel, ctx, function (res) {
-      if (res && res.solved) play(h.text + reward(h)); else play('You step back from the console for now.');
+      if (res && res.solved) play(h.text + reward(h));
+      else if (res && res.skipped) { if (h.setFlag) S.flags[h.setFlag] = true; State.save(S); play('You bypass it the slow way and move on. No XP for that one.'); }
+      else play('You step back from the console for now.');
     });
   }
 
   function runDialogue(lvl, h) {
     var d = Dialogue.open(h.dialogue, S);
     (function turn() {
-      clear(); root.appendChild(hud(lvl));
+      clear(); root.appendChild(hud(lvl, true));
       var v = Dialogue.view(d), panel = el('section', { 'class': 'panel', 'aria-label': 'Conversation' });
       panel.appendChild(el('p', { 'class': 'who' }, v.speaker));
       panel.appendChild(el('p', {}, v.text));
