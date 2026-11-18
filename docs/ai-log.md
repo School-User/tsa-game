@@ -1,0 +1,2 @@
+- 2026-11-17 | Claude Code | design doc, state.js, dialogue.js, game.js, css, levels 1-3 story/data, tests, e2e playthrough
+- 2026-11-17 | Freebuff (DeepSeek) | js/puzzles/power.js, valves.js, cipher.js
