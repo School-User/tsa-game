@@ -129,7 +129,7 @@
         if (c.locked) b.disabled = true;
         panel.appendChild(b);
       });
-      if (v.end) panel.appendChild(btn('Done', function () { State.save(S); play(h.after ? reward(h) && h.after : undefined); }));
+      if (v.end) panel.appendChild(btn('Done', function () { State.save(S); play(); }));
       root.appendChild(panel);
     })();
   }
