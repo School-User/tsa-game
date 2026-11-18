@@ -1,6 +1,6 @@
 // Game state: stats, XP, level, flags. Pure logic, no DOM, so it can be tested in Node.
 (function (root) {
-  var KEY = 'driftSignal.v1';
+  var KEY = (root.GameMeta && root.GameMeta.key) || 'driftSignal.v1';
   var STATS = ['eng', 'sci', 'emp'];
   var START_POINTS = 6, MAX_LEVEL = 6, XP_PER_LEVEL = 40;
 

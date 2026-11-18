@@ -3,6 +3,7 @@
   var root = document.getElementById('game');
   var S = null;           // current state
   var LEVELS = window.Levels || [];
+  var META = window.GameMeta;
 
   function el(tag, attrs, text) {
     var e = document.createElement(tag);
@@ -16,8 +17,8 @@
   // ---------- title / character creation ----------
   function title() {
     clear();
-    root.appendChild(el('h1', {}, 'Drift Signal'));
-    root.appendChild(el('p', { 'class': 'lead' }, 'You wake alone on a drifting ship near a dying star. Nothing here can be fought. Everything can be solved.'));
+    root.appendChild(el('h1', {}, META.title));
+    root.appendChild(el('p', { 'class': 'lead' }, META.tagline));
     if (State.load()) root.appendChild(btn('Continue', function () { S = State.load(); play(); }));
     root.appendChild(btn('New game', create, State.load() ? 'ghost' : ''));
     root.appendChild(el('p', { 'class': 'small' }, 'No download, no account. Progress saves in this browser.'));
@@ -136,13 +137,9 @@
 
   function ending() {
     clear();
-    var kind = S.flags.ending_peace ? 'peace' : S.flags.ending_study ? 'study' : 'quiet';
-    var texts = {
-      peace: 'You answered the signal as a friend. Two lonely ships found each other, and nobody had to fight.',
-      study: 'You mapped the signal and carried its secrets home. Knowledge was the cargo that mattered.',
-      quiet: 'You fixed the ship and drifted on. The signal still plays, waiting for the next listener.' };
+    var end = META.endings.filter(function (e) { return !e.flag || S.flags[e.flag]; })[0];
     root.appendChild(el('h1', {}, 'The End'));
-    root.appendChild(el('p', { 'class': 'lead' }, texts[kind]));
+    root.appendChild(el('p', { 'class': 'lead' }, end.text));
     root.appendChild(el('p', {}, 'Final: Rank ' + S.level + ', ' + S.xp + ' XP.'));
     root.appendChild(btn('Play again', function () { State.clear(); logLines = []; title(); }));
   }
