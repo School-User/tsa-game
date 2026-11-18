@@ -6,7 +6,7 @@
 
 ## RPG systems (all required by the theme)
 - **Stats (3):** Engineering (ENG), Science (SCI), Empathy (EMP). Start with 6 points to place (min 1 each).
-- **XP and levels:** solving a puzzle or finding a clue gives XP. Level = floor(xp / 60) + 1, max 6. Each level-up gives 1 stat point.
+- **XP and levels:** solving a puzzle or finding a clue gives XP. Level = floor(xp / 40) + 1, max 6. Each level-up gives 1 stat point.
 - **Stat checks are deterministic (no dice):** a stat at or above the number unlocks something: an extra hint, a dialogue option, or a shortcut. A low stat never blocks the game, it only makes the puzzle harder.
 - **Branching dialogue:** trees with stat-gated choices and flags that change later scenes and the ending.
 

@@ -52,7 +52,7 @@
   function hud(lvl) {
     var bar = el('header', { 'class': 'hud' });
     bar.appendChild(el('strong', {}, 'Level ' + lvl.id + ' · ' + lvl.title));
-    var into = S.xp % 60, pct = S.level >= 6 ? 100 : Math.round(into / 60 * 100);
+    var into = S.xp % 40, pct = S.level >= 6 ? 100 : Math.round(into / 40 * 100);
     var stats = el('span', {}, 'ENG ' + S.stats.eng + ' · SCI ' + S.stats.sci + ' · EMP ' + S.stats.emp + ' · Rank ' + S.level + ' · ' + S.xp + ' XP');
     bar.appendChild(stats);
     var meter = el('div', { 'class': 'meter', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(pct), 'aria-label': 'XP to next rank' });

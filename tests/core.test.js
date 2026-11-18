@@ -10,7 +10,7 @@ let s = State.newGame({ eng: 5, sci: 2, emp: 2 });
 assert.ok(s && s.level === 1 && s.xp === 0);
 
 // xp and levels
-assert.strictEqual(State.addXp(s, 59), 0); assert.strictEqual(s.level, 1);
+assert.strictEqual(State.addXp(s, 39), 0); assert.strictEqual(s.level, 1);
 assert.strictEqual(State.addXp(s, 1), 1); assert.strictEqual(s.level, 2);
 assert.strictEqual(State.points(s), 1);
 assert.ok(State.spend(s, 'sci') && s.stats.sci === 3 && State.points(s) === 0);

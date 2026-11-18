@@ -2,7 +2,7 @@
 (function (root) {
   var KEY = 'driftSignal.v1';
   var STATS = ['eng', 'sci', 'emp'];
-  var START_POINTS = 6, MAX_LEVEL = 6, XP_PER_LEVEL = 60;
+  var START_POINTS = 6, MAX_LEVEL = 6, XP_PER_LEVEL = 40;
 
   function levelFor(xp) { return Math.min(MAX_LEVEL, Math.floor(xp / XP_PER_LEVEL) + 1); }
 
